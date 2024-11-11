@@ -1,0 +1,63 @@
+a:hover{
+    /* color: black; */
+    text-decoration: none;
+}
+body{
+    margin: 0px;
+}
+table{
+    background-color: transparent;
+}
+/* input框的placeholder属性设置 */
+input::-webkit-input-placeholder{
+  	font-size: 13px;
+}
+select{
+	font-family: 宋体;
+	width: 150px;
+	height: 25px;
+	border-color: white;
+}
+.jfj {
+	color: gray;
+	fint-size: 18px;
+}
+.con1{
+	width: 100%; 
+	padding: 0px; 
+	margin: 0px; 
+	background: #efefef; 
+	height: 77%;
+}
+.con2{
+    background: #ffffff;
+    margin: 0px 40px 0px 40px;
+    padding: 30px 80px;
+    height: 96%;
+}
+h3{
+	text-align: center; 
+	font-family: 隶书;
+}
+.qu{
+	background-color: #f1ecec; 
+	width: 100%; 
+	height: 60px; 
+	line-height: 30px; 
+	padding: 10px;
+}
+thead{
+	background-color: #f1ecec;
+}
+.btn1{
+	background-color:#009eff;
+	color: black;
+}
+.btn2{
+	background-color:#d9534f;
+	color: black;
+}
+.btn3{
+	background-color:#e57c38;
+	color: black;
+}

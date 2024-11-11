@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.dao.CourseMapper">
+
+	<resultMap id="BaseResultMap"  type="course">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="courseId" property="courseId" jdbcType="VARCHAR" />
+		<result column="courseName" property="courseName" jdbcType="VARCHAR" />
+		<result column="schoolYear" property="schoolYear" jdbcType="VARCHAR" />
+		<result column="teacher" property="teacher" jdbcType="VARCHAR" />
+		<result column="creditHour" property="creditHour" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="queryCourseById" parameterType="String"
+		resultType="course">
+		select * from course where courseId=#{courseId}
+	</select>
+
+	<insert id="addCourseInfo" parameterType="course">
+		INSERT into course(courseId,courseName,schoolYear,teacher,creditHour) values (#{courseId}, #{courseName},#{schoolYear},#{teacher},#{creditHour})
+	</insert>
+
+	<update id="updateCourseInfo" parameterType="course">
+		update course set courseName=#{courseName},schoolYear=#{schoolYear},teacher=#{teacher},creditHour=#{creditHour} where courseId= #{courseId}
+	</update>
+
+	<delete id="deleteCourseInfoById" parameterType="String">
+		delete from course where courseId=#{courseId}
+	</delete>
+	
+	<!-- 查询课程信息（根据分页数据start 和size查询数据） -->
+	<select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+		select * from course
+		<where>
+		<if test="courseId!=null and courseId!='' ">
+			courseId like "%"#{courseId}"%"
+		</if>
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	
+	<!-- 查询课程记录总数 -->
+	<select id="selectCount" parameterType="String" resultType="int">
+		select count(*) from course 
+		<where>
+			<if test="courseId!=null and courseId!='' ">
+				courseId like "%"#{courseId}"%"
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectcount" parameterType="String" resultType="int">
+		select count(*) from course ,score WHERE score.courseId=course.courseId AND score.studentId=#{id}
+	</select>
+	
+	<select id="query" parameterType="String" resultType="course">
+		SELECT 
+			course.courseId,
+			course.courseName,
+			course.creditHour,
+			course.schoolYear,
+			course.teacher
+ 		FROM 
+ 			score,course
+ 		WHERE
+ 			score.courseId=course.courseId 
+ 		AND
+ 			score.studentId=#{id}
+ 		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	
+	</select>
+	
+	<select id="query1" parameterType="String" resultType="Course">
+		select * from course where courseId=#{id}
+	</select>
+	
+
+</mapper>

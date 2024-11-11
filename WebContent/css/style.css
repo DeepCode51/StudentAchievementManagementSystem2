@@ -1,0 +1,61 @@
+a{
+    text-decoration: none;
+    color: white;
+}
+.label{
+    width: 90px;
+    color: black;
+    text-align: left;
+    font-size: 16px;
+    font-family: "Microsoft Yahei";
+}
+.login_label{
+    width: 70px;
+    color: black;
+    text-align: left;
+    font-size: 18px;
+    font-family: "Microsoft Yahei";
+}
+.input{
+    border: 1px solid;
+    border-style: solid;
+    border-color: black;
+    font-size: 14px;
+    font-family:black;
+    font-family: "Microsoft Yahei";
+    width:200px;
+    height: 30px;
+
+}
+.mybutton{
+    background-color: #eea14e;
+    font-family: "Microsoft Yahei";
+    width: 240px;
+    height: 30px;
+    font-size: 18px;
+    color: saddlebrown;
+}
+#title{
+    text-align: center;
+    color:white;
+    font-family:"Microsoft Yahei";
+}
+.register_button{
+    background-color: #46c5d5;
+    font-family: "Microsoft Yahei";
+    width: 80px;
+    height: 30px;
+    font-size: 15px;
+    color: black;
+}
+.err{
+    display:none;
+    font-size:14px;
+    text-align:center;
+    color:red;
+}
+
+.head{
+    color: azure;
+
+}

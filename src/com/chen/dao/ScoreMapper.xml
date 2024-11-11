@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.dao.ScoreMapper">
+
+	<select id="queryScoreById" parameterType="score" resultType="score">
+		select * from score where courseId=#{courseId} and studentId=#{studentId}
+	</select>
+
+	<insert id="addScoreInfo" parameterType="score">
+		INSERT into score(studentId,courseId,score) values (#{studentId}, #{courseId},#{score})
+	</insert>
+
+	<update id="updateScoreInfo" parameterType="score">
+		update score set score=#{score} where studentId= #{studentId} and courseId= #{courseId}
+	</update>
+
+	<delete id="deleteScoreInfoById" parameterType="String">
+		delete from score where id=#{id}
+	</delete>
+	
+	<select id="findByPage" parameterType="map" resultMap="BaseResultMap">
+		select * from score
+		LEFT JOIN student ON student.studentId = score.studentId
+		LEFT JOIN course ON score.courseId = course.courseId
+		<where>
+			<if test="id!=null and id!='' ">
+				score.studentId like "%"#{id}"%"
+			</if>
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+		
+	</select>
+	
+	<resultMap id="BaseResultMap"  type="score">
+		<id column="id" property="id"/>
+		<result column="studentId" property="studentId"/>
+		<result column="courseId" property="courseId"/>
+		<result column="score" property="score"  />
+		<association property="student" javaType="student">
+			<id column="studentId" property="studentId" jdbcType="VARCHAR" />
+			<result column="studentName" property="studentName" jdbcType="VARCHAR" />
+			<result column="studentSex" property="studentSex" jdbcType="VARCHAR" />
+			<result column="studentAge" property="studentAge" jdbcType="VARCHAR" />
+			<result column="studentBifthday" property="studentBifthday" jdbcType="VARCHAR" />
+			<result column="studentDept" property="studentDept" jdbcType="VARCHAR" />
+			<result column="studentMajor" property="studentMajor" jdbcType="VARCHAR" />
+			<result column="studentClassId" property="studentClassId" jdbcType="VARCHAR" />
+			<result column="studentCellPhone" property="studentCellPhone" jdbcType="VARCHAR" />
+		</association>
+		<association property="course" javaType="course">
+			<id column="id" property="id" jdbcType="VARCHAR" />
+			<result column="courseId" property="courseId" jdbcType="VARCHAR" />
+			<result column="courseName" property="courseName" jdbcType="VARCHAR" />
+			<result column="schoolYear" property="schoolYear" jdbcType="VARCHAR" />
+			<result column="teacher" property="teacher" jdbcType="VARCHAR" />
+			<result column="creditHour" property="creditHour" jdbcType="VARCHAR" />	
+		</association>
+	</resultMap>
+
+	<!-- 查询课程记录总数 -->
+	<select id="selectCount" parameterType="String" resultType="int">
+		<!-- select count(*) from score,student,course where score.courseId=course.courseId and student.studentId = score.studentId -->
+		select count(*) from score
+		LEFT JOIN student ON student.studentId = score.studentId
+		LEFT JOIN course ON score.courseId = course.courseId
+		<where>
+			<if test="id!=null and id!=''">
+				score.studentId like "%"#{id}"%"
+			</if>
+		</where>
+	</select>
+	
+</mapper>

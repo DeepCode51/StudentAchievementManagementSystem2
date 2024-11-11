@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chen.dao.StudentMapper">
+	
+	<resultMap id="BaseResultMap"  type="student">
+		<id column="studentId" property="studentId" jdbcType="VARCHAR" />
+		<result column="studentName" property="studentName" jdbcType="VARCHAR" />
+		<result column="studentSex" property="studentSex" jdbcType="VARCHAR" />
+		<result column="studentAge" property="studentAge" jdbcType="VARCHAR" />
+		<result column="studentBifthday" property="studentBifthday" jdbcType="VARCHAR" />
+		<result column="studentDept" property="studentDept" jdbcType="VARCHAR" />
+		<result column="studentMajor" property="studentMajor" jdbcType="VARCHAR" />
+		<result column="studentClassId" property="studentClassId" jdbcType="VARCHAR" />
+		<result column="studentCellPhone" property="studentCellPhone" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		studentId,studentName,studentSex,studentAge,studentBifthday,studentDept,studentMajor,studentClassId,studentCellPhone
+	</sql>
+
+	<!-- 添加学生信息 -->
+	<insert id="addStudentInfo" parameterType="student">
+		INSERT into
+		student(studentId,studentName,studentSex,studentAge,studentBifthday,studentDept,studentMajor,studentClassId,studentCellPhone)
+		values (#{studentId}, #{studentName},
+		#{studentSex},#{studentAge},#{studentBifthday},#{studentDept},#{studentMajor},#{studentClassId},#{studentCellPhone})
+	</insert>
+	
+	<!-- 通过学号查询（更新） -->
+	<select id="queryStudentById" parameterType="String"
+		resultType="student">
+		select * from student where studentId=#{id}
+	</select>
+	
+	<!-- 更新学生信息 -->
+	<update id="updateStudentInfo" parameterType="student">
+		update student
+		<set>
+			<if test="studentName!=null and studentName!=''">
+				studentName=#{studentName},
+			</if>
+			<if test="studentSex!=null and studentSex!=''">
+				studentSex=#{studentSex},
+			</if>
+			<if test="studentAge!=null and studentAge!=''">
+				studentAge=#{studentAge},
+			</if>
+			<if test="studentBifthday!=null and studentBifthday!=''">
+				studentBifthday=#{studentBifthday},
+			</if>
+			<if test="studentDept!=null and studentDept!=''">
+				studentDept=#{studentDept},
+			</if>
+			<if test="studentMajor!=null and studentMajor!=''">
+				studentMajor=#{studentMajor},
+			</if>
+			<if test="studentClassId!=null and studentClassId!=''">
+				studentClassId=#{studentClassId},
+			</if>
+			<if test="studentCellPhone!=null and studentCellPhone!=''">
+				studentCellPhone=#{studentCellPhone},
+			</if>
+		</set>
+		where studentId= #{studentId}
+	</update>
+
+	<!-- 删除学生信息 -->
+	<delete id="deleteStudentInfoById" parameterType="String">
+		delete from student where studentId=#{studentId}
+	</delete>
+	
+	<!-- 查询学生信息（根据分页数据start 和size查询数据） -->
+	<select id="findByPage" parameterType="Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from student
+		<where>
+		<if test="studentId!=null and studentId!='' ">
+			studentId like "%"#{studentId}"%"
+		</if>
+		</where>
+		<if test="start!=null and size!=null">
+			limit #{start},#{size}
+		</if>
+	</select>
+	
+	<!-- 查询用户记录总数 -->
+	<select id="selectCount" parameterType="String" resultType="int">
+		select count(*) from student 
+		<where>
+			<if test="studentId!=null and studentId!='' ">
+				studentId like "%"#{studentId}"%"
+			</if>
+		</where>
+	</select>
+	
+	<update id="restStudent" parameterType="String">
+		update student set studentPad = 123456 where studentId = #{studentId}
+	</update>
+	
+	<update id="changePwd" parameterType="String">
+		update student set studentPad = #{newPass} where studentId = #{studentId}
+	</update>
+
+</mapper>
